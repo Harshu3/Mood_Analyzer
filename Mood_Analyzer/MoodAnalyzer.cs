@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoodAnalyzerDemo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,14 +22,18 @@ namespace MoodAnalyzerProblems
                 {
                     return "happy";
                 }
+                else if(message.Equals(string.Empty))
+                {
+                    throw new MoodAnalyzerException("Message is empty", MoodAnalyzerException.ExceptionTypes.EMPTY_MOOD);
+                }
                 else
                 {
                     return "sad";
                 }
             }
-            catch (Exception ex)
+            catch (NullReferenceException ex)
             {
-                return "happy";
+                throw new MoodAnalyzerException("Message having null", MoodAnalyzerException.ExceptionTypes.NULL_MOOD);
             }
         }
     }
