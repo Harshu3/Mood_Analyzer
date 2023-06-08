@@ -7,23 +7,23 @@ namespace MoodAnalyzerTestProject
     [TestClass]
     public class UnitTest1
     {
+        public MoodAnalyzerFactory factory = new MoodAnalyzerFactory();
+
         [TestMethod]
-        [DataRow("", "Message having null")]
-        [DataRow("", "Message is empty")]
-        public void Given_Null_Should_Return_CustomException(string msg, string expected)
+        [TestCategory("ReflectionTestCase")]
+        [DataRow("MoodAnalyzerDemo.MoodAnalyzer", "MoodAnalyzer")]
+        public void Given_ClassInfo_Return_Default_Constructor(string className, string constructor)
         {
-            if(expected.Equals("Message having null"))
-                msg = null;
-
-            MoodAnalyzer mood = new MoodAnalyzer(msg);
-
+            string expectedMsg = "class not found";
             try
             {
-                string actual = mood.AnalyzeMood();
+                MoodAnalyzer expected = new MoodAnalyzer();
+                MoodAnalyzer actual = (MoodAnalyzer)factory.CreateMoodAnalyzerObject(className, constructor);
+                actual.Equals(expected);
             }
-            catch (MoodAnalyzerException ex)
+            catch(MoodAnalyzerException ex)
             {
-                Assert.AreEqual(expected, ex.Message);
+                Assert.AreEqual(expectedMsg, ex.Message);
             }
         }
     }
