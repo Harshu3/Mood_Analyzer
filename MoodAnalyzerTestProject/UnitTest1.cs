@@ -11,19 +11,20 @@ namespace MoodAnalyzerTestProject
 
         [TestMethod]
         [TestCategory("ReflectionTestCase")]
-        [DataRow("MoodAnalyzerDemo.MoodAnalyzer", "MoodAnalyzer")]
-        public void Given_ClassInfo_Return_Default_Constructor(string className, string constructor)
+        public void Given_MoodAnalyzerWithMessage_Using_Reflection_Return_ParameterizedConstructor()
         {
-            string expectedMsg = "class not found";
+            string message = "I am in happy mood";
+            MoodAnalyzer expected = new MoodAnalyzer(message);
+            object actual = null;
             try
             {
-                MoodAnalyzer expected = new MoodAnalyzer();
-                MoodAnalyzer actual = (MoodAnalyzer)factory.CreateMoodAnalyzerObject(className, constructor);
+                actual = factory.CreateMoodAnalyzerParameterizedObject("MoodAnalyzer", "MoodAnalyzer", message);
                 actual.Equals(expected);
             }
-            catch(MoodAnalyzerException ex)
+            catch (MoodAnalyzerException exception)
             {
-                Assert.AreEqual(expectedMsg, ex.Message);
+                Console.WriteLine(exception.Message);
+                Assert.AreEqual("class not found", exception.Message);
             }
         }
     }
